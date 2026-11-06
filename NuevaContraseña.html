@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Restablecer contraseña | MiniJuegos</title>
+		<link rel="stylesheet" href="css/estilos.css" />
+	</head>
+	<body class="registro-pagina">
+		<header class="registro-header">
+			<h1>MiniJuegos</h1>
+		</header>
+
+		<main>
+			<center>
+				<section aria-labelledby="titulo-restablecer">
+					<h2 id="titulo-restablecer">Nueva contraseña</h2>
+					<form id="reset-form">
+						<label for="correo">Correo electrónico</label>
+						<input id="correo" name="correo" type="email" autocomplete="email" required />
+
+						<label for="contrasena">Nueva contraseña</label>
+						<input
+							id="contrasena"
+							name="contrasena"
+							type="password"
+							autocomplete="new-password"
+							minlength="6"
+							required
+						/>
+
+						<label for="confirmar-contrasena">Confirmar contraseña</label>
+						<input
+							id="confirmar-contrasena"
+							name="confirmar-contrasena"
+							type="password"
+							autocomplete="new-password"
+							minlength="6"
+							required
+						/>
+
+						<button class="btn" type="submit">Guardar contraseña</button>
+						<p id="mensaje-restablecer" role="alert" aria-live="polite"></p>
+					</form>
+					<p><a href="login.html">Volver al inicio de sesión</a></p>
+					<p><a href="index.html">Volver al inicio</a></p>
+				</section>
+			</center>
+		</main>
+
+		<script>
+			document.getElementById("reset-form").addEventListener("submit", (event) => {
+				event.preventDefault();
+
+				const correo = document.getElementById("correo").value.trim();
+				const contrasena = document.getElementById("contrasena").value;
+				const confirmar = document.getElementById("confirmar-contrasena").value;
+				const mensaje = document.getElementById("mensaje-restablecer");
+
+				if (contrasena !== confirmar) {
+					mensaje.textContent = "Las contraseñas no coinciden.";
+					return;
+				}
+
+				localStorage.setItem(
+					"minijuegos_cuenta",
+					JSON.stringify({
+						correo,
+						contrasena,
+					}),
+				);
+
+				mensaje.textContent = "Contraseña actualizada correctamente.";
+				event.target.reset();
+				window.setTimeout(() => {
+					window.location.href = "login.html";
+				}, 1200);
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Mi personaje | MiniJuegos</title>
+		<link rel="stylesheet" href="../css/estilos.css" />
+	</head>
+	<body class="lobby-page">
+		<header class="lobby-header">
+			<p>Tu aventura, a tu manera</p>
+			<h1>Mi personaje</h1>
+			<nav class="lobby-menu" aria-label="Navegación">
+				<a class="lobby-link" href="lobby.html">Lobby</a>
+				<a class="lobby-link" href="tienda.html">Tienda</a>
+				<a class="lobby-link" href="lobby.html#modos">Jugar</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="lobby-modes" aria-labelledby="titulo-personaje">
+				<h2 id="titulo-personaje">Elige tu personaje</h2>
+				<p id="modo-seleccionado" class="shop-note"></p>
+				<div class="lobby-mode-grid character-grid">
+					<article class="lobby-mode character-option" data-personaje="aventurero">
+						<div class="character-avatar avatar-aventurero" aria-hidden="true">A</div>
+						<h3>Aventurero</h3>
+						<p>Siempre listo para comenzar una nueva misión.</p>
+						<button class="btn character-select" type="button" data-personaje="aventurero">Elegir</button>
+					</article>
+					<article class="lobby-mode character-option" data-personaje="maga">
+						<div class="character-avatar avatar-maga" aria-hidden="true">✦</div>
+						<h3>Maga lunar</h3>
+						<p>Una experta en los misterios de la noche.</p>
+						<button class="btn character-select" type="button" data-personaje="maga">Elegir</button>
+					</article>
+					<article class="lobby-mode character-option" data-personaje="robot">
+						<div class="character-avatar avatar-robot" aria-hidden="true">R</div>
+						<h3>Robot explorador</h3>
+						<p>Un compañero resistente para cualquier desafío.</p>
+						<button class="btn character-select" type="button" data-personaje="robot">Elegir</button>
+					</article>
+				</div>
+				<p id="mensaje-personaje" class="page-message" role="status" aria-live="polite"></p>
+				<p><a class="lobby-link" href="tienda.html">Ver personajes en la tienda</a></p>
+			</section>
+		</main>
+
+		<script>
+			const personajesComprados = JSON.parse(
+				localStorage.getItem("minijuegos_personajes") || '["aventurero"]',
+			);
+			const personajeActivo =
+				localStorage.getItem("minijuegos_personaje_activo") || "aventurero";
+			const mensaje = document.getElementById("mensaje-personaje");
+			const nombresModo = {
+				clasico: "Clásico",
+				desafio: "Desafío",
+				contrarreloj: "Contrarreloj",
+			};
+			const modo = new URLSearchParams(window.location.search).get("modo");
+			if (modo && nombresModo[modo]) {
+				document.getElementById("modo-seleccionado").textContent =
+					`Modo elegido: ${nombresModo[modo]}.`;
+			}
+
+			document.querySelectorAll(".character-option").forEach((opcion) => {
+				const personaje = opcion.dataset.personaje;
+				const boton = opcion.querySelector(".character-select");
+				const disponible = personajesComprados.includes(personaje);
+
+				if (!disponible) {
+					boton.textContent = "Ir a la tienda";
+					boton.addEventListener("click", () => {
+						window.location.href = "tienda.html";
+					});
+				} else if (personaje === personajeActivo) {
+					boton.textContent = "Seleccionado";
+					boton.disabled = true;
+				} else {
+					boton.addEventListener("click", () => {
+						localStorage.setItem("minijuegos_personaje_activo", personaje);
+						mensaje.textContent = "Personaje seleccionado.";
+						window.setTimeout(() => window.location.reload(), 500);
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

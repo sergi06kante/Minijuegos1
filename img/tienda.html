@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tienda | MiniJuegos</title>
+		<link rel="stylesheet" href="../css/estilos.css" />
+	</head>
+	<body class="lobby-page">
+		<header class="lobby-header">
+			<p>Personaliza tu aventura</p>
+			<h1>Tienda</h1>
+			<nav class="lobby-menu" aria-label="Navegación">
+				<a class="lobby-link" href="lobby.html">Lobby</a>
+				<a class="lobby-link" href="personaje.html">Mi personaje</a>
+				<span class="lobby-link shop-balance">Monedas: <strong id="monedas">100</strong></span>
+			</nav>
+		</header>
+
+		<main>
+			<section class="lobby-modes" aria-labelledby="titulo-tienda">
+				<h2 id="titulo-tienda">Personajes disponibles</h2>
+				<p class="shop-note">Empiezas con 100 monedas para conseguir nuevos personajes.</p>
+				<div class="lobby-mode-grid">
+					<article class="lobby-mode shop-item">
+						<div class="character-avatar avatar-maga" aria-hidden="true">✦</div>
+						<h3>Maga lunar</h3>
+						<p>Una experta en los misterios de la noche.</p>
+						<p class="shop-price">70 monedas</p>
+						<button class="btn shop-buy" type="button" data-personaje="maga" data-precio="70">Comprar</button>
+					</article>
+					<article class="lobby-mode shop-item">
+						<div class="character-avatar avatar-robot" aria-hidden="true">R</div>
+						<h3>Robot explorador</h3>
+						<p>Un compañero resistente para cualquier desafío.</p>
+						<p class="shop-price">90 monedas</p>
+						<button class="btn shop-buy" type="button" data-personaje="robot" data-precio="90">Comprar</button>
+					</article>
+				</div>
+				<p id="mensaje-tienda" class="page-message" role="status" aria-live="polite"></p>
+			</section>
+		</main>
+
+		<script>
+			const personajesComprados = JSON.parse(
+				localStorage.getItem("minijuegos_personajes") || '["aventurero"]',
+			);
+			let monedas = Number(localStorage.getItem("minijuegos_monedas"));
+			if (!Number.isFinite(monedas) || monedas < 0) {
+				monedas = 100;
+				localStorage.setItem("minijuegos_monedas", String(monedas));
+			}
+
+			const monedasElemento = document.getElementById("monedas");
+			const mensaje = document.getElementById("mensaje-tienda");
+
+			function actualizarTienda() {
+				monedasElemento.textContent = String(monedas);
+				document.querySelectorAll(".shop-buy").forEach((boton) => {
+					const yaComprado = personajesComprados.includes(boton.dataset.personaje);
+					boton.disabled = yaComprado;
+					boton.textContent = yaComprado ? "Comprado" : "Comprar";
+				});
+			}
+
+			document.querySelectorAll(".shop-buy").forEach((boton) => {
+				boton.addEventListener("click", () => {
+					const personaje = boton.dataset.personaje;
+					const precio = Number(boton.dataset.precio);
+
+					if (personajesComprados.includes(personaje)) {
+						mensaje.textContent = "Ya tienes este personaje.";
+						return;
+					}
+					if (monedas < precio) {
+						mensaje.textContent = "No tienes suficientes monedas.";
+						return;
+					}
+
+					monedas -= precio;
+					personajesComprados.push(personaje);
+					localStorage.setItem("minijuegos_monedas", String(monedas));
+					localStorage.setItem(
+						"minijuegos_personajes",
+						JSON.stringify(personajesComprados),
+					);
+					mensaje.textContent = "¡Personaje comprado! Ya puedes elegirlo.";
+					actualizarTienda();
+				});
+			});
+
+			actualizarTienda();
+		</script>
+	</body>
+</html>

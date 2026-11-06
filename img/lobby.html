@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Lobby | Abelardo</title>
+		<link rel="stylesheet" href="../css/estilos.css" />
+	</head>
+	<body class="lobby-page">
+		<header class="lobby-header">
+			<p>Lobby</p>
+			<h1>Abelardo</h1>
+			<nav class="lobby-menu" aria-label="Menú principal">
+				<a class="lobby-link" href="../diseño/configuracion.html">Configuración</a>
+				<a class="lobby-link" href="personaje.html">Mi personaje</a>
+				<a class="lobby-link" href="tienda.html">Tienda</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="lobby-modes" id="modos" aria-labelledby="titulo-modos">
+				<h2 id="titulo-modos">Modos de juego</h2>
+				<div class="lobby-mode-grid">
+					<article class="lobby-mode">
+						<h3>Clásico</h3>
+						<p>Juega a tu ritmo.</p>
+					</article>
+					<article class="lobby-mode">
+						<h3>Desafío</h3>
+						<p>Pon a prueba tus habilidades.</p>
+					</article>
+					<article class="lobby-mode">
+						<h3>Contrarreloj</h3>
+						<p>Completa la partida antes de que se acabe el tiempo.</p>
+					</article>
+				</div>
+			</section>
+		</main>
+		<script>
+			const cuenta = JSON.parse(localStorage.getItem("minijuegos_cuenta") || "null");
+			if (cuenta && cuenta.nombre) {
+				document.querySelector(".lobby-header h1").textContent = cuenta.nombre;
+			}
+		</script>
+	</body>
+</html>

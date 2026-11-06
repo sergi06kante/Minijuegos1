@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Configuración | MiniJuegos</title>
+		<link rel="stylesheet" href="../css/estilos.css" />
+	</head>
+	<body class="lobby-page">
+		<header class="lobby-header">
+			<p>Tu cuenta</p>
+			<h1>Configuración</h1>
+			<nav class="lobby-menu" aria-label="Navegación">
+				<a class="lobby-link" href="../img/lobby.html">Volver a la lobby</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="lobby-modes settings-section" aria-labelledby="titulo-cuenta">
+				<h2 id="titulo-cuenta">Tus datos</h2>
+				<form id="configuracion-form" class="settings-form">
+					<label for="nombre">Nombre de usuario</label>
+					<input id="nombre" name="nombre" type="text" autocomplete="nickname" required maxlength="40" />
+
+					<label for="correo">Correo electrónico</label>
+					<input id="correo" name="correo" type="email" autocomplete="email" required />
+
+					<label for="contrasena">Nueva contraseña <span>(opcional)</span></label>
+					<input
+						id="contrasena"
+						name="contrasena"
+						type="password"
+						autocomplete="new-password"
+						minlength="6"
+					/>
+
+					<label for="confirmar-contrasena">Confirmar nueva contraseña</label>
+					<input
+						id="confirmar-contrasena"
+						name="confirmar-contrasena"
+						type="password"
+						autocomplete="new-password"
+					/>
+
+					<button class="btn" type="submit">Guardar cambios</button>
+					<p id="mensaje-configuracion" class="page-message" role="status" aria-live="polite"></p>
+				</form>
+			</section>
+		</main>
+
+		<script>
+			const cuentaGuardada = JSON.parse(
+				localStorage.getItem("minijuegos_cuenta") || "null",
+			);
+			const cuenta = { nombre: "Jugador", correo: "", ...cuentaGuardada };
+			const formulario = document.getElementById("configuracion-form");
+			const mensaje = document.getElementById("mensaje-configuracion");
+
+			formulario.elements.nombre.value = cuenta.nombre;
+			formulario.elements.correo.value = cuenta.correo;
+
+			formulario.addEventListener("submit", (event) => {
+				event.preventDefault();
+
+				const contrasena = formulario.elements.contrasena.value;
+				const confirmar = formulario.elements["confirmar-contrasena"].value;
+
+				if (contrasena !== confirmar && (contrasena || confirmar)) {
+					mensaje.textContent = "Las contraseñas nuevas no coinciden.";
+					return;
+				}
+
+				const cuentaActualizada = {
+					...cuenta,
+					nombre: formulario.elements.nombre.value.trim(),
+					correo: formulario.elements.correo.value.trim(),
+				};
+				if (contrasena) {
+					cuentaActualizada.contrasena = contrasena;
+				}
+
+				localStorage.setItem(
+					"minijuegos_cuenta",
+					JSON.stringify(cuentaActualizada),
+				);
+				mensaje.textContent = "Tus datos se han actualizado.";
+				formulario.elements.contrasena.value = "";
+				formulario.elements["confirmar-contrasena"].value = "";
+			});
+		</script>
+	</body>
+</html>
