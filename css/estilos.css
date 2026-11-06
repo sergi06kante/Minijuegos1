@@ -1,0 +1,50 @@
+.btn {
+  background: #ffea00;
+  color: #303030;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+h1,
+h2 {
+  color: #ffea00;
+  text-shadow: 2px 2px 0 #303030, 0 0 8px #303030;
+}
+
+.registro-header {
+  text-align: center;
+}
+
+.registro-pagina {
+  min-height: 100vh;
+  margin: 0;
+  background-color: #3a3a3a;
+  color: #fff;
+}
+
+.registro-pagina a {
+  color: #ffea00;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.fondo-seccion {
+  background-image: url('../img/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+}

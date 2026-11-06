@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Iniciar sesión | MiniJuegos</title>
+		<link rel="stylesheet" href="css/estilos.css" />
+	</head>
+	<body class="registro-pagina">
+		<header class="registro-header">
+			<h1>MiniJuegos</h1>
+		</header>
+
+		<main>
+			<center>
+				<section aria-labelledby="titulo-login">
+					<h2 id="titulo-login">Iniciar sesión</h2>
+					<form id="login-form">
+						<label for="correo">Correo electrónico</label>
+						<input id="correo" name="correo" type="email" autocomplete="username" required />
+
+						<label for="contrasena">Contraseña</label>
+						<input id="contrasena" name="contrasena" type="password" autocomplete="current-password" required />
+
+						<button class="btn" type="submit">Entrar</button>
+						<p id="mensaje-login" role="alert" aria-live="polite"></p>
+					</form>
+					<p><a href="registro.html">Crear una cuenta</a></p>
+					<p><a href="index.html">Volver al inicio</a></p>
+				</section>
+			</center>
+		</main>
+
+		<script>
+			document.getElementById("login-form").addEventListener("submit", (event) => {
+				event.preventDefault();
+
+				const correo = document.getElementById("correo").value.trim();
+				const contrasena = document.getElementById("contrasena").value;
+				const mensaje = document.getElementById("mensaje-login");
+
+				if (correo === "sergio@gmail.com" && contrasena === "ser123") {
+					window.location.href = "img/lobby.html";
+					return;
+				}
+
+				mensaje.textContent = "El correo o la contraseña no son correctos.";
+			});
+		</script>
+	</body>
+</html>
