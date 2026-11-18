@@ -47,6 +47,7 @@ form {
   width: 100%;
   min-height: 100vh;
   margin: 0;
+<<<<<<< HEAD
 }
 
 .lobby-page {
@@ -234,4 +235,6 @@ form {
   .settings-form {
     padding: 18px;
   }
+=======
+>>>>>>> 96162922439c65b52f5027a08309879863017e7a
 }

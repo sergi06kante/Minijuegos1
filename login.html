@@ -39,6 +39,7 @@
 				const contrasena = document.getElementById("contrasena").value;
 				const mensaje = document.getElementById("mensaje-login");
 
+<<<<<<< HEAD
 				const cuentaGuardada = JSON.parse(
 					localStorage.getItem("minijuegos_cuenta") || "null",
 				);
@@ -48,6 +49,9 @@
 					contrasena === cuentaGuardada.contrasena;
 
 				if (cuentaValida) {
+=======
+				if (correo === "sergio@gmail.com" && contrasena === "ser123") {
+>>>>>>> 96162922439c65b52f5027a08309879863017e7a
 					window.location.href = "img/lobby.html";
 					return;
 				}
